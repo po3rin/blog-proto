@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service Post {
+    rpc Get (OneReq) returns (OneRes) {}
+}
+
+message OneReq {
+    string id = 1;
+}
+
+message OneRes {
+    string title = 1;
+    string body = 2;
+}
