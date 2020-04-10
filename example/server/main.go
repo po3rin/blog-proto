@@ -8,11 +8,28 @@ import (
 
 	"github.com/po3rin/blog-proto/rpc/post"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type PostCtl struct{}
 
-func (p *PostCtl) Get(context.Context, *post.OneReq) (*post.OneRes, error) {
+func (p *PostCtl) Get(ctx context.Context, req *post.OneReq) (*post.OneRes, error) {
+	// example error ---------------------
+	if req.GetId() == "404" {
+		st := status.New(codes.NotFound, "no posts")
+		// v := &errdetails.BadRequest{
+		// 	FieldViolations: []*errdetails.BadRequest_FieldViolation{
+		// 		{
+		// 			Field:       "username",
+		// 			Description: "should not empty",
+		// 		},
+		// 	},
+		// }
+		dt, _ := st.WithDetails()
+		return nil, dt.Err()
+	}
+
 	return &post.OneRes{
 		Title: "this is grpc",
 		Body:  "this is body",
