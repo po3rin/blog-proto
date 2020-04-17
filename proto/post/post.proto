@@ -1,14 +1,40 @@
 syntax = "proto3";
 
-service Post {
-    rpc Get (OneReq) returns (OneRes) {}
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service PostSvc {
+    rpc One (OneReq) returns (OneRes) {}
+    rpc List (ListReq) returns (ListRes) {}
+    rpc Store (Post) returns (google.protobuf.Empty) {}
 }
+
+message Post {
+    string title = 1;
+    string body = 2;
+    repeated string Tags = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+}
+
+
+// request ------------------
 
 message OneReq {
     string id = 1;
 }
 
+message ListReq {
+    int32 size = 1;
+    int32 from = 2;
+}
+
+// response -----------------
+
 message OneRes {
-    string title = 1;
-    string body = 2;
+    Post Post = 1;
+}
+
+message ListRes {
+    repeated Post Posts = 1;
 }

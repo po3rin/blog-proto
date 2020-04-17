@@ -7,6 +7,8 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -24,6 +26,77 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Post struct {
+	Title                string               `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Body                 string               `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
+	Tags                 []string             `protobuf:"bytes,3,rep,name=Tags,proto3" json:"Tags,omitempty"`
+	CreatedAt            *timestamp.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt            *timestamp.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *Post) Reset()         { *m = Post{} }
+func (m *Post) String() string { return proto.CompactTextString(m) }
+func (*Post) ProtoMessage()    {}
+func (*Post) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9e4a9952ba66d64, []int{0}
+}
+
+func (m *Post) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Post.Unmarshal(m, b)
+}
+func (m *Post) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Post.Marshal(b, m, deterministic)
+}
+func (m *Post) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Post.Merge(m, src)
+}
+func (m *Post) XXX_Size() int {
+	return xxx_messageInfo_Post.Size(m)
+}
+func (m *Post) XXX_DiscardUnknown() {
+	xxx_messageInfo_Post.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Post proto.InternalMessageInfo
+
+func (m *Post) GetTitle() string {
+	if m != nil {
+		return m.Title
+	}
+	return ""
+}
+
+func (m *Post) GetBody() string {
+	if m != nil {
+		return m.Body
+	}
+	return ""
+}
+
+func (m *Post) GetTags() []string {
+	if m != nil {
+		return m.Tags
+	}
+	return nil
+}
+
+func (m *Post) GetCreatedAt() *timestamp.Timestamp {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return nil
+}
+
+func (m *Post) GetUpdatedAt() *timestamp.Timestamp {
+	if m != nil {
+		return m.UpdatedAt
+	}
+	return nil
+}
+
 type OneReq struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -35,7 +108,7 @@ func (m *OneReq) Reset()         { *m = OneReq{} }
 func (m *OneReq) String() string { return proto.CompactTextString(m) }
 func (*OneReq) ProtoMessage()    {}
 func (*OneReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e9e4a9952ba66d64, []int{0}
+	return fileDescriptor_e9e4a9952ba66d64, []int{1}
 }
 
 func (m *OneReq) XXX_Unmarshal(b []byte) error {
@@ -63,9 +136,55 @@ func (m *OneReq) GetId() string {
 	return ""
 }
 
+type ListReq struct {
+	Size                 int32    `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"`
+	From                 int32    `protobuf:"varint,2,opt,name=from,proto3" json:"from,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListReq) Reset()         { *m = ListReq{} }
+func (m *ListReq) String() string { return proto.CompactTextString(m) }
+func (*ListReq) ProtoMessage()    {}
+func (*ListReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9e4a9952ba66d64, []int{2}
+}
+
+func (m *ListReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListReq.Unmarshal(m, b)
+}
+func (m *ListReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListReq.Marshal(b, m, deterministic)
+}
+func (m *ListReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListReq.Merge(m, src)
+}
+func (m *ListReq) XXX_Size() int {
+	return xxx_messageInfo_ListReq.Size(m)
+}
+func (m *ListReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListReq proto.InternalMessageInfo
+
+func (m *ListReq) GetSize() int32 {
+	if m != nil {
+		return m.Size
+	}
+	return 0
+}
+
+func (m *ListReq) GetFrom() int32 {
+	if m != nil {
+		return m.From
+	}
+	return 0
+}
+
 type OneRes struct {
-	Title                string   `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
-	Body                 string   `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
+	Post                 *Post    `protobuf:"bytes,1,opt,name=Post,proto3" json:"Post,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -75,7 +194,7 @@ func (m *OneRes) Reset()         { *m = OneRes{} }
 func (m *OneRes) String() string { return proto.CompactTextString(m) }
 func (*OneRes) ProtoMessage()    {}
 func (*OneRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e9e4a9952ba66d64, []int{1}
+	return fileDescriptor_e9e4a9952ba66d64, []int{3}
 }
 
 func (m *OneRes) XXX_Unmarshal(b []byte) error {
@@ -96,23 +215,58 @@ func (m *OneRes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_OneRes proto.InternalMessageInfo
 
-func (m *OneRes) GetTitle() string {
+func (m *OneRes) GetPost() *Post {
 	if m != nil {
-		return m.Title
+		return m.Post
 	}
-	return ""
+	return nil
 }
 
-func (m *OneRes) GetBody() string {
+type ListRes struct {
+	Posts                []*Post  `protobuf:"bytes,1,rep,name=Posts,proto3" json:"Posts,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListRes) Reset()         { *m = ListRes{} }
+func (m *ListRes) String() string { return proto.CompactTextString(m) }
+func (*ListRes) ProtoMessage()    {}
+func (*ListRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9e4a9952ba66d64, []int{4}
+}
+
+func (m *ListRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListRes.Unmarshal(m, b)
+}
+func (m *ListRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListRes.Marshal(b, m, deterministic)
+}
+func (m *ListRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListRes.Merge(m, src)
+}
+func (m *ListRes) XXX_Size() int {
+	return xxx_messageInfo_ListRes.Size(m)
+}
+func (m *ListRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListRes proto.InternalMessageInfo
+
+func (m *ListRes) GetPosts() []*Post {
 	if m != nil {
-		return m.Body
+		return m.Posts
 	}
-	return ""
+	return nil
 }
 
 func init() {
+	proto.RegisterType((*Post)(nil), "Post")
 	proto.RegisterType((*OneReq)(nil), "OneReq")
+	proto.RegisterType((*ListReq)(nil), "ListReq")
 	proto.RegisterType((*OneRes)(nil), "OneRes")
+	proto.RegisterType((*ListRes)(nil), "ListRes")
 }
 
 func init() {
@@ -120,15 +274,28 @@ func init() {
 }
 
 var fileDescriptor_e9e4a9952ba66d64 = []byte{
-	// 127 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2f, 0xc8, 0x2f, 0x2e,
-	0xd1, 0x07, 0x11, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x4a, 0x12, 0x5c, 0x6c, 0xfe, 0x79, 0xa9,
-	0x41, 0xa9, 0x85, 0x42, 0x7c, 0x5c, 0x4c, 0x99, 0x29, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41,
-	0x4c, 0x99, 0x29, 0x4a, 0x46, 0x50, 0x99, 0x62, 0x21, 0x11, 0x2e, 0xd6, 0x92, 0xcc, 0x92, 0x9c,
-	0x54, 0xa8, 0x24, 0x84, 0x23, 0x24, 0xc4, 0xc5, 0x92, 0x94, 0x9f, 0x52, 0x29, 0xc1, 0x04, 0x16,
-	0x04, 0xb3, 0x8d, 0x14, 0xb9, 0x58, 0x02, 0xf2, 0x8b, 0x4b, 0x84, 0x24, 0xb9, 0x98, 0xdd, 0x53,
-	0x4b, 0x84, 0xd8, 0xf5, 0x20, 0x66, 0x4b, 0x41, 0x19, 0xc5, 0x4a, 0x0c, 0x49, 0x6c, 0x60, 0x7b,
-	0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xb6, 0xed, 0x7c, 0xa3, 0x8a, 0x00, 0x00, 0x00,
+	// 324 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x91, 0x41, 0x4b, 0xfb, 0x40,
+	0x10, 0xc5, 0x9b, 0x26, 0xdb, 0xfe, 0x3b, 0x85, 0xbf, 0xb0, 0x88, 0xa4, 0xa9, 0x60, 0x58, 0x41,
+	0x7a, 0xda, 0x62, 0x3d, 0x79, 0xec, 0xc1, 0x9b, 0x50, 0x49, 0x7b, 0x97, 0xb4, 0xd9, 0x96, 0x40,
+	0xd2, 0x8d, 0xd9, 0xa9, 0x50, 0x3f, 0x9a, 0x9f, 0x4e, 0x66, 0x77, 0x83, 0xa0, 0x07, 0x2f, 0xe1,
+	0xcd, 0x6f, 0xde, 0xcc, 0xbe, 0xdd, 0xc0, 0x45, 0xa3, 0x0d, 0xce, 0xe9, 0x23, 0x9b, 0x56, 0xa3,
+	0x4e, 0x6e, 0x0e, 0x5a, 0x1f, 0x2a, 0x35, 0xb7, 0xd5, 0xf6, 0xb4, 0x9f, 0x63, 0x59, 0x2b, 0x83,
+	0x79, 0xdd, 0x78, 0xc3, 0xf4, 0xa7, 0x41, 0xd5, 0x0d, 0x9e, 0x5d, 0x53, 0x7c, 0x06, 0x10, 0xbd,
+	0x68, 0x83, 0xfc, 0x12, 0x18, 0x96, 0x58, 0xa9, 0x38, 0x48, 0x83, 0xd9, 0x28, 0x73, 0x05, 0xe7,
+	0x10, 0x6d, 0x75, 0x71, 0x8e, 0xfb, 0x16, 0x5a, 0x4d, 0x6c, 0x93, 0x1f, 0x4c, 0x1c, 0xa6, 0x21,
+	0x31, 0xd2, 0xfc, 0x11, 0x60, 0xd7, 0xaa, 0x1c, 0x55, 0xf1, 0x9a, 0x63, 0x1c, 0xa5, 0xc1, 0x6c,
+	0xbc, 0x48, 0xa4, 0x3b, 0x58, 0x76, 0x07, 0xcb, 0x4d, 0x97, 0x2c, 0x1b, 0x79, 0xf7, 0x12, 0x69,
+	0xf4, 0xd4, 0x14, 0xdd, 0x28, 0xfb, 0x7b, 0xd4, 0xbb, 0x97, 0x28, 0x62, 0x18, 0xac, 0x8e, 0x2a,
+	0x53, 0x6f, 0xfc, 0x3f, 0xf4, 0xcb, 0xc2, 0x47, 0xef, 0x97, 0x85, 0xb8, 0x87, 0xe1, 0x73, 0x69,
+	0x90, 0x5a, 0x1c, 0x22, 0x53, 0x7e, 0xb8, 0x7b, 0xb1, 0xcc, 0x6a, 0x62, 0xfb, 0x56, 0xd7, 0xf6,
+	0x5a, 0x2c, 0xb3, 0x5a, 0xdc, 0xfa, 0x65, 0x86, 0x4f, 0xdc, 0x93, 0xd8, 0x89, 0xf1, 0x82, 0x49,
+	0x2a, 0x32, 0x8b, 0xc4, 0x5d, 0xb7, 0xd7, 0xf0, 0x29, 0x30, 0x42, 0x26, 0x0e, 0xd2, 0xf0, 0xdb,
+	0xe6, 0xd8, 0xa2, 0x82, 0x21, 0x89, 0xf5, 0xfb, 0x8e, 0x4f, 0x20, 0x5c, 0x1d, 0x15, 0x1f, 0x4a,
+	0x17, 0x35, 0xf1, 0xc2, 0x88, 0x1e, 0xbf, 0x86, 0x88, 0xb6, 0xf1, 0x7f, 0xd2, 0x87, 0x4d, 0x3a,
+	0x45, 0xdd, 0x19, 0xb0, 0x35, 0xea, 0x56, 0x71, 0xb7, 0x3a, 0xb9, 0xfa, 0xf5, 0x28, 0x4f, 0xf4,
+	0x23, 0x45, 0x6f, 0x3b, 0xb0, 0xe4, 0xe1, 0x2b, 0x00, 0x00, 0xff, 0xff, 0x45, 0x3f, 0xdf, 0x70,
+	0x1c, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -139,72 +306,144 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// PostClient is the client API for Post service.
+// PostSvcClient is the client API for PostSvc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type PostClient interface {
-	Get(ctx context.Context, in *OneReq, opts ...grpc.CallOption) (*OneRes, error)
+type PostSvcClient interface {
+	One(ctx context.Context, in *OneReq, opts ...grpc.CallOption) (*OneRes, error)
+	List(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListRes, error)
+	Store(ctx context.Context, in *Post, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
-type postClient struct {
+type postSvcClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPostClient(cc grpc.ClientConnInterface) PostClient {
-	return &postClient{cc}
+func NewPostSvcClient(cc grpc.ClientConnInterface) PostSvcClient {
+	return &postSvcClient{cc}
 }
 
-func (c *postClient) Get(ctx context.Context, in *OneReq, opts ...grpc.CallOption) (*OneRes, error) {
+func (c *postSvcClient) One(ctx context.Context, in *OneReq, opts ...grpc.CallOption) (*OneRes, error) {
 	out := new(OneRes)
-	err := c.cc.Invoke(ctx, "/Post/Get", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/PostSvc/One", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PostServer is the server API for Post service.
-type PostServer interface {
-	Get(context.Context, *OneReq) (*OneRes, error)
+func (c *postSvcClient) List(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListRes, error) {
+	out := new(ListRes)
+	err := c.cc.Invoke(ctx, "/PostSvc/List", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedPostServer can be embedded to have forward compatible implementations.
-type UnimplementedPostServer struct {
+func (c *postSvcClient) Store(ctx context.Context, in *Post, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/PostSvc/Store", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-func (*UnimplementedPostServer) Get(ctx context.Context, req *OneReq) (*OneRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+// PostSvcServer is the server API for PostSvc service.
+type PostSvcServer interface {
+	One(context.Context, *OneReq) (*OneRes, error)
+	List(context.Context, *ListReq) (*ListRes, error)
+	Store(context.Context, *Post) (*empty.Empty, error)
 }
 
-func RegisterPostServer(s *grpc.Server, srv PostServer) {
-	s.RegisterService(&_Post_serviceDesc, srv)
+// UnimplementedPostSvcServer can be embedded to have forward compatible implementations.
+type UnimplementedPostSvcServer struct {
 }
 
-func _Post_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func (*UnimplementedPostSvcServer) One(ctx context.Context, req *OneReq) (*OneRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method One not implemented")
+}
+func (*UnimplementedPostSvcServer) List(ctx context.Context, req *ListReq) (*ListRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (*UnimplementedPostSvcServer) Store(ctx context.Context, req *Post) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Store not implemented")
+}
+
+func RegisterPostSvcServer(s *grpc.Server, srv PostSvcServer) {
+	s.RegisterService(&_PostSvc_serviceDesc, srv)
+}
+
+func _PostSvc_One_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OneReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PostServer).Get(ctx, in)
+		return srv.(PostSvcServer).One(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Post/Get",
+		FullMethod: "/PostSvc/One",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServer).Get(ctx, req.(*OneReq))
+		return srv.(PostSvcServer).One(ctx, req.(*OneReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Post_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "Post",
-	HandlerType: (*PostServer)(nil),
+func _PostSvc_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostSvcServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/PostSvc/List",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostSvcServer).List(ctx, req.(*ListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostSvc_Store_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Post)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostSvcServer).Store(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/PostSvc/Store",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostSvcServer).Store(ctx, req.(*Post))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _PostSvc_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "PostSvc",
+	HandlerType: (*PostSvcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _Post_Get_Handler,
+			MethodName: "One",
+			Handler:    _PostSvc_One_Handler,
+		},
+		{
+			MethodName: "List",
+			Handler:    _PostSvc_List_Handler,
+		},
+		{
+			MethodName: "Store",
+			Handler:    _PostSvc_Store_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

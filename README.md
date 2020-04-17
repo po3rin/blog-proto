@@ -11,8 +11,6 @@ following is core file tree.
 │       └── post.proto
 └── rpc
     └── post
-        ├── mock
-        │   └── mock.go
         └── post.pb.go
 ```
 
