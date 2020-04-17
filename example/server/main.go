@@ -24,6 +24,7 @@ func (p *PostCtl) One(ctx context.Context, req *post.OneReq) (*post.OneRes, erro
 
 	return &post.OneRes{
 		Post: &post.Post{
+			Id:    "isid",
 			Title: "this is grpc",
 			Body:  "this is body",
 			Tags: []string{
@@ -38,6 +39,7 @@ func (p *PostCtl) List(ctx context.Context, req *post.ListReq) (*post.ListRes, e
 	return &post.ListRes{
 		Posts: []*post.Post{
 			{
+				Id:    "isid",
 				Title: "this is grpc",
 				Body:  "this is body",
 			},
