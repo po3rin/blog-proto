@@ -18,10 +18,10 @@ func main() {
 	}
 	defer conn.Close()
 
-	res, err := post.NewPostClient(conn).Get(context.Background(), &post.OneReq{Id: "hello grpc"})
+	res, err := post.NewPostSvcClient(conn).One(context.Background(), &post.OneReq{Id: "hello grpc"})
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Printf("%s\n", res.Title)
+	fmt.Printf("%s\n", res.GetPost())
 }
