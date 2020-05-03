@@ -8,6 +8,3 @@ server:
 
 client:
 	GODEBUG=http2debug=2 go run example/client/main.go
-
-mock:
-	mockgen github.com/po3rin/blog-proto/rpc/post PostClient,PostServer > rpc/post/mock/mock.go
