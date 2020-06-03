@@ -59,6 +59,7 @@ message OneRes {
 
 message ListRes {
     repeated Post Posts = 1;
+    int32 total = 2;
 }
 
 message TagsRes {
