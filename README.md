@@ -14,6 +14,12 @@ following is core file tree.
         └── post.pb.go
 ```
 
+## update post package
+
+```bash
+$ make gen
+```
+
 ## Other Repository
 
 post repository manages blog posts

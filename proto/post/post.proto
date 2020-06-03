@@ -9,6 +9,7 @@ service PostSvc {
     rpc Store (Post) returns (google.protobuf.Empty) {}
     rpc SearchByTags (SearchByTagsReq) returns (ListRes) {}
     rpc SimilarArticles (SimilarArticlesReq) returns (ListRes) {}
+    rpc Tags (google.protobuf.Empty) returns (TagsRes) {}
 }
 
 message Post {
@@ -20,6 +21,11 @@ message Post {
     repeated string Tags = 6;
     google.protobuf.Timestamp created_at = 7;
     google.protobuf.Timestamp updated_at = 8;
+}
+
+message Tag {
+    string name = 1;
+    int32 num = 2;
 }
 
 // request ------------------
@@ -53,4 +59,8 @@ message OneRes {
 
 message ListRes {
     repeated Post Posts = 1;
+}
+
+message TagsRes {
+    repeated Tag Tags = 1;
 }
